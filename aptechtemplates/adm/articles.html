@@ -41,7 +41,7 @@
                                 <td>{% if article.image != '' %}<img src="{{article.image.url}}" alt="{{article.user.name}}">{%  else %}  - {% endif %}</td>
                                 <td>{{article.text}}</td>
                                 <td>{{article.comments.count}}</td>
-                                <td>{{student.created_at}}</td>
+                                <td>{{article.created_at}}</td>
                                 <td>
                                     <div class="ui small green labeled icon button">
                                         <i class="pencil alternate icon"></i> Edit
@@ -98,7 +98,7 @@
                     <label>Enter Article Content :</label>
                     <textarea name="text" placeholder="Enter Article Content" required="required"></textarea>
                 </div>
-                <div class="field swb-file-input">
+                <div class="field apcon-file-input">
                     <span>Enter Article Image</span>
                     <input type="file" name="image" accept=".png, .jpg, .jpeg">
                 </div>

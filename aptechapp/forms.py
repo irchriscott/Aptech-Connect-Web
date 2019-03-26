@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 from django import forms
-from aptechapp.models import Course, User, Article, Event
+from aptechapp.models import Course, User, Article, Event, Library
 
 DURATION_TYPE = (
     ('Days', 'Days'),
@@ -50,3 +50,10 @@ class EventForm(forms.ModelForm):
     class Meta:
         model = Event
         fields = ('name', 'date', 'time', 'description', 'venue', 'image')
+
+
+class LibraryForm(forms.ModelForm):
+
+    class Meta:
+        model = Library
+        fields = ('title', 'author', 'book', 'book_link')

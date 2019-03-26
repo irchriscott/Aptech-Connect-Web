@@ -6,9 +6,9 @@ from django.views.generic import TemplateView
 from django.http import HttpResponseRedirect, HttpResponse, request
 from django.urls import reverse
 from django.contrib import messages
-from aptechapp.models import User, Course, Branch, Article
+from aptechapp.models import User, Course, Branch, Article, Event, Library
 from aptechapp.backend import UserAuthentication
-from aptechapp.forms import UserForm, ArticleForm
+from aptechapp.forms import UserForm, ArticleForm, EventForm, LibraryForm
 from aptechapp.responses import ResponseObject, HttpJsonResponse
 
 # Create your views here.
@@ -145,5 +145,63 @@ def add_new_article(request):
         else:
             return HttpJsonResponse(
                 ResponseObject('error', 'Fill All Fields With Rignt Data, Please !!!', 400, msgs=article.errors))
+    else:
+        return HttpJsonResponse(ResponseObject('error', 'Bad Request', 400))
+
+
+@check_user_login
+@check_admin_login
+def events(request):
+    user = User.objects.get(pk=request.session['user'])
+    events = Event.objects.filter(user__branch__pk=user.branch.pk).order_by('-created_at')
+    return render(request, 'adm/events.html', {'events': events, 'user': user})
+
+
+@check_admin_login
+@check_user_login
+def add_new_event(request):
+    if request.method == 'POST':
+        user = User.objects.get(pk=request.session['user'])
+        event = EventForm(request.POST, request.FILES, instance=Event(
+                user=User.objects.get(pk=user.pk)
+            ))
+        if event.is_valid():
+            event.save()
+            messages.success(request, 'Event Added Successfully !!!')
+            return HttpJsonResponse(ResponseObject('success', 'Event Added Successfully !!!', 200, 
+                reverse('apcon_admin_events')))
+        else:
+            return HttpJsonResponse(
+                ResponseObject('error', 'Fill All Fields With Rignt Data, Please !!!', 400, msgs=event.errors))
+    else:
+        return HttpJsonResponse(ResponseObject('error', 'Bad Request', 400))
+
+
+@check_user_login
+@check_admin_login
+def ebooks(request):
+    user = User.objects.get(pk=request.session['user'])
+    ebooks = Library.objects.all().order_by('-created_at')
+    return render(request, 'adm/ebooks.html', {'books': ebooks, 'user': user})
+
+
+@check_admin_login
+@check_user_login
+def add_new_book(request):
+    if request.method == 'POST':
+        user = User.objects.get(pk=request.session['user'])
+        is_link = False if request.FILES.get('book') is not None else True
+        book = LibraryForm(request.POST, request.FILES, instance=Library(
+                user=User.objects.get(pk=user.pk),
+                is_link=is_link
+            ))
+        if book.is_valid():
+            book.save()
+            messages.success(request, 'E-Book Added Successfully !!!')
+            return HttpJsonResponse(ResponseObject('success', 'E-Book Added Successfully !!!', 200, 
+                reverse('apcon_admin_ebooks')))
+        else:
+            return HttpJsonResponse(
+                ResponseObject('error', 'Fill All Fields With Rignt Data, Please !!!', 400, msgs=event.errors))
     else:
         return HttpJsonResponse(ResponseObject('error', 'Bad Request', 400))

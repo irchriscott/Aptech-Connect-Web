@@ -7,13 +7,13 @@
         <div class="ui grid">
             <div class="row">
                 <div class="twelve wide column">
-                    <h1>Events</h1>
+                    <h1>E-Books</h1>
                     <p style="font-size: 16px; margin-top: -10px;"><b>Branch : </b> {{user.branch.name}}</p>
                 </div>
                 <div class="four wide column">
-                    <button class="ui twitter button" style="float:right" id="apcon-add-new-event-modal">
-                    <i class="plus icon"></i>
-                        Add New Event
+                    <button class="ui twitter button" style="float:right" id="apcon-add-new-admin-modal">
+                        <i class="plus icon"></i>
+                        Add New Book
                     </button>
                 </div>
             </div>
@@ -25,23 +25,23 @@
                     <tr>
                         <th>ID</th>
                         <th>Image</th>
-                        <th>Name</th>
-                        <th>Date Time</th>
-                        <th>Venue</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Link</th>
                         <th>Created At</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% if events.count > 0 %}
-                        {% for event in events %}
+                    {% if books.count > 0 %}
+                        {% for book in books %}
                             <tr>
-                                <td><div class="ui ribbon label">{{event.id}}</div></td>
-                                <th><img src="{{event.image.src}}" alt="{{event.name}}" /></th>
-                                <th>{{event.name}}</th>
-                                <td>{{event.date}} at {{article.time}}</td>
-                                <td>{{event.venue}}</td>
-                                <td>{{event.created_at}}</td>
+                                <td><div class="ui ribbon label">{{book.id}}</div></td>
+                                <th><img src="{{book.user.image_url.url}}" alt="{{book.user.name}}" /></th>
+                                <th>{{book.title}}</th>
+                                <td>{{book.author}}</td>
+                                <td><a href="{{book.book_file}}">{{book.book_file}}</a></td>
+                                <td>{{book.created_at}}</td>
                                 <td>
                                     <div class="ui small green labeled icon button">
                                         <i class="pencil alternate icon"></i> Edit
@@ -55,7 +55,7 @@
                     {% else %}
                         <tr>
                             <th colspan="8">
-                                <p class="apcon-error">No Posted Event</p>
+                                <p class="apcon-error">No Posted Book</p>
                             </th>
                         </tr>
                     {% endif %}
@@ -80,47 +80,31 @@
                 </tfoot>
             </table>
         </div>
-        
     </div>
 </div>
-
-<div class="ui modal" data-modal="apcon-add-new-event-modal">
+<div class="ui modal" data-modal="apcon-add-new-admin-modal">
     <div class="header">
-        Add Event
+        Add E-Book
     </div>
     <div class="content">
         <div class="apcon-search-place">
-            <form class="ui form" action="{% url 'apcon_admin_event_add' %}" method="POST" id="apcon-new-branch-form" enctype="multipart/form-data">
+            <form class="ui form" action="{% url 'apcon_admin_book_add' %}" method="POST" enctype="multipart/form-data" id="apcon-new-branch-form">
                 {% csrf_token %}
                 <div class="field">
-                    <label>Enter Event Name :</label>
-                    <input type="text" name="name" placeholder="Event Name" required autocomplete="off">
+                    <label>Enter Book Title :</label>
+                    <input type="text" name="title" placeholder="Enter Article Title" required="required"/>
                 </div>
                 <div class="field">
-                    <label for="">Enter Event Venue : </label>
-                    <div class="ui action input">
-                        <input type="text" name="venue" placeholder="Event Venue" autocomplete="off">
-                    </div>
+                    <label>Enter Book Author :</label>
+                    <input type="text" name="author" placeholder="Enter Article Title" required="required"/>
                 </div>
                 <div class="field">
-                    <div class="two fields">
-                        <div class="field">
-                            <label>Enter Event Date :</label>
-                            <input type="date" placeholder="Event Date" name="date" id="apcon-event-date" required>
-                        </div>
-                        <div class="field">
-                            <label>Event Time :</label>
-                            <input type="time" name="time" id="apcon-event-time" required>
-                        </div>
-                    </div>
-                </div>
-                <div class="field">
-                    <label for="apcon-event-description">Enter Event Description : </label>
-                    <textarea name="description" cols="30" rows="10" placeholder="Event Description"></textarea>
+                    <label>Enter Book Link (if it's link) :</label>
+                    <input type="text" name="author" placeholder="Enter Article Title" required="required"/>
                 </div>
                 <div class="field apcon-file-input">
-                    <span>Add Event Poster</span>
-                    <input type="file" multiple="true" name="image" required accept=".png, .jpg, .jpeg">
+                    <span>Enter Book File</span>
+                    <input type="file" name="book" accept=".pdf, .doc, .docx, .txt">
                 </div>
                 <div class="apcon-action-modal">
                     <div class="actions">
@@ -135,6 +119,7 @@
                 </div>
             </form>
         </div>
+
     </div>
 </div>
 {% endblock %}
