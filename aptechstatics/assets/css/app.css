@@ -1,0 +1,213 @@
+/*  THIS STYLE SHEET BELONGS TO SAVE WITH BLOOD APP
+    Author: Ir Christian Scott -> Split Orange
+    Date : 16 August 2018
+*/
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+div,
+a,
+label,
+input,
+button,
+textarea{
+    font-family: Poppins, Lato, 'Helvetica Neue', Arial, Helvetica, sans-serif !important;
+}
+
+a, input{
+    outline: none !important;
+}
+
+table thead tr th{
+    text-transform: uppercase !important;
+    text-align: center !important;
+}
+
+table tbody tr td{
+    text-align: center !important;
+}
+
+table tbody tr td img{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid rgba(0, 0, 0, .1);
+}
+
+textarea{
+    resize: none !important;
+}
+
+.apcon_logo{
+    margin-top: 15px;
+}
+
+.apcon-error{
+    color: red;
+    font-size: 17px;
+    text-align: center;
+    padding: 20px 0;
+    text-transform: uppercase;
+}
+
+.apcon-data-container{
+    margin-top: 2.5rem;
+}
+
+.apcon-admin-container{
+    padding: 50px;
+    margin-left: 15rem;
+    padding-bottom: 0px;
+    padding-top: 10px;
+}
+
+.apcon-menu-logo{
+    display: block;
+    position: relative;
+    padding: 10px;
+    text-align: center;
+}
+
+.apcon-menu-logo img{
+    width: 100%;
+}
+
+.apcon-menu-logo h3{
+    color: #ffffff;
+    margin-top: 8px;
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.apcon-side-menu{
+    display: block;
+    position: relative;
+    padding: 10px 0;
+    margin-top: 20px;
+}
+
+.apcon-side-menu .apcon-side-menu-items{
+    display: block;
+    position: relative;
+}
+
+.apcon-side-menu .apcon-side-menu-items .apcon-menu-item{
+    display: block;
+    padding: 15px 10px;
+    cursor: pointer;
+}
+
+.apcon-side-menu .apcon-side-menu-items .apcon-menu-item:hover{
+    background: #333333;
+}
+
+.apcon-side-menu .apcon-side-menu-items .apcon-menu-item .apcon-menu-icon{
+    float: left;
+    margin-right: 8px;
+}
+
+.apcon-side-menu .apcon-side-menu-items .apcon-menu-item .apcon-menu-icon i{
+    font-size: 26px;
+    color: #ffffff;
+}
+
+.apcon-side-menu .apcon-side-menu-items .apcon-menu-item .apcon-menu-legend p{
+    color: #ffffff;
+    font-size: 17px;
+}
+
+.apcon-search-place{
+    width: 100%;
+}
+
+.apcon-map-container{
+    width: 100%;
+    margin-top: 20px;
+}
+
+.apcon-map-container .apcon-branch-map-container {
+    width: calc(100% - 2px);
+    border: 1px solid rgba(0, 0, 0, .1);
+    width: 100%;
+    height: 400px;
+}
+
+.pac-item {
+    padding: 8px 6px !important;
+    font-size: 14px !important;
+    font-family: "Poppins" !important;
+}
+
+.pac-container {
+    margin-top: 5px !important;
+    z-index: 1000000000 !important;
+}
+
+.pac-logo::after {
+    display: none !important;
+}
+
+.apcon-action-modal{
+    margin-top: 1.5rem;
+    height: 36px;
+}
+
+.apcon-action-modal .actions{
+    width: 93px;
+}
+
+.apcon-action-modal .actions .button{
+    margin: 0 !important;
+}
+
+.apcon-action-modal button{
+    position: absolute;
+    left: 113px;
+    top: -36px;
+}
+
+.apcon-file-input{
+    position: relative;
+}
+
+.apcon-file-input span{
+    margin: 0;
+    outline: 0;
+    -webkit-appearance: none;
+    tap-highlight-color: rgba(255,255,255,0);
+    line-height: 1.21428571em;
+    padding: .67857143em 1em;
+    font-size: 1em;
+    background: #fff;
+    border: 1px solid rgba(34,36,38,.15);
+    color: rgba(0,0,0,.87);
+    border-radius: .28571429rem;
+    -webkit-box-shadow: 0 0 0 0 transparent inset;
+    box-shadow: 0 0 0 0 transparent inset;
+    -webkit-transition: color .1s ease,border-color .1s ease;
+    transition: color .1s ease,border-color .1s ease;
+    display: block;
+    text-align: center;
+    font-size: 17px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.apcon-file-input input{
+    position: absolute;
+    cursor: pointer;
+    top: 0px;
+    opacity: 0;
+}
+
+.fr-element {
+    min-height: 230px !important;
+}
+
+.fr-toolbar{
+    border-top: 2px solid #000000 !important;
+}

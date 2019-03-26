@@ -1,0 +1,121 @@
+{% extends 'adm/layouts/header.html' %} 
+{% block content %} 
+{% include 'adm/layouts/sidebar.html' %}
+<div class="pusher">
+    <div class="article apcon-admin-container">
+        {% include 'adm/layouts/menu.html' %}
+        <div class="ui grid">
+            <div class="row">
+                <div class="twelve wide column">
+                    <h1>Articles</h1>
+                    <p style="font-size: 16px; margin-top: -10px;"><b>Branch : </b> {{user.branch.name}}</p>
+                </div>
+                <div class="four wide column">
+                    <button class="ui twitter button" style="float:right" id="apcon-add-new-admin-modal">
+                        <i class="plus icon"></i>
+                        Add New Article
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="apcon-data-container">
+            <table class="ui single line table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Title</th>
+                        <th>Image</th>
+                        <th>Content</th>
+                        <th>Comments</th>
+                        <th>Created At</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if articles.count > 0 %}
+                        {% for article in articles %}
+                            <tr>
+                                <td><div class="ui ribbon label">{{article.id}}</div></td>
+                                <th>{{article.title}}</th>
+                                <td>{% if article.image != '' %}<img src="{{article.image.url}}" alt="{{article.user.name}}">{%  else %}  - {% endif %}</td>
+                                <td>{{article.text}}</td>
+                                <td>{{article.comments.count}}</td>
+                                <td>{{student.created_at}}</td>
+                                <td>
+                                    <div class="ui small green labeled icon button">
+                                        <i class="pencil alternate icon"></i> Edit
+                                    </div>
+                                    <div class="ui small red labeled icon button">
+                                        <i class="times icon"></i> Delete
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <th colspan="8">
+                                <p class="apcon-error">No Posted Article</p>
+                            </th>
+                        </tr>
+                    {% endif %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="8">
+                            <div class="ui right floated pagination menu">
+                                <a class="icon item">
+                                    <i class="left chevron icon"></i>
+                                </a>
+                                <a class="item">1</a>
+                                <a class="item">2</a>
+                                <a class="item">3</a>
+                                <a class="item">4</a>
+                                <a class="icon item">
+                                    <i class="right chevron icon"></i>
+                                </a>
+                            </div>
+                        </th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="ui modal" data-modal="apcon-add-new-admin-modal">
+    <div class="header">
+        Add Article
+    </div>
+    <div class="content">
+        <div class="apcon-search-place">
+            <form class="ui form" action="{% url 'apcon_admin_article_add' %}" method="POST" enctype="multipart/form-data" id="apcon-new-branch-form">
+                {% csrf_token %}
+                <div class="field">
+                    <label>Enter Article Title :</label>
+                    <input type="text" name="title" placeholder="Enter Article Title" required="required"/>
+                </div>
+                <div class="field">
+                    <label>Enter Article Content :</label>
+                    <textarea name="text" placeholder="Enter Article Content" required="required"></textarea>
+                </div>
+                <div class="field swb-file-input">
+                    <span>Enter Article Image</span>
+                    <input type="file" name="image" accept=".png, .jpg, .jpeg">
+                </div>
+                <div class="apcon-action-modal">
+                    <div class="actions">
+                        <div class="ui red deny button">
+                            Cancel
+                        </div>
+                    </div>
+                    <button type="submit" class="ui positive right labeled icon button" id="apcon-save-new-branch">
+                        Save
+                        <i class="checkmark icon"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

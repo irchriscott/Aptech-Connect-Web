@@ -1,0 +1,81 @@
+{% load staticfiles %}
+<div class="ui visible sidebar inverted vertical menu">
+    <div class="apcon-menu-logo" style="margin-top:20px;">
+        <img src="{% static 'img/logo.png' %}" alt="Aptech Connect">
+        <h3>Aptech Connect</h3>
+    </div>
+    <div class="apcon-side-menu">
+        <div class="apcon-side-menu-items">
+            <div class="apcon-menu-item">
+                <a href="{% url 'apcon_admin_index' %}">
+                    <div class="apcon-menu-icon">
+                        <i class="home link icon"></i>
+                    </div>
+                    <div class="apcon-menu-legend">
+                        <p>Home</p>
+                    </div>
+                </a>
+            </div>
+            <div class="apcon-menu-item">
+                <a href="{% url 'apcon_admin_articles' %}">
+                    <div class="apcon-menu-icon">
+                        <i class="file alternate link icon"></i>
+                    </div>
+                    <div class="apcon-menu-legend">
+                        <p>Articles</p>
+                    </div>
+                </a>
+            </div>
+            <div class="apcon-menu-item">
+                <a href="{% url 'apcon_admin_students' %}">
+                    <div class="apcon-menu-icon">
+                        <i class="user link icon"></i>
+                    </div>
+                    <div class="apcon-menu-legend">
+                        <p>Students</p>
+                    </div>
+                </a>
+            </div>
+            <div class="apcon-menu-item">
+                <a href="">
+                    <div class="apcon-menu-icon">
+                        <i class="clipboard list link icon"></i>
+                    </div>
+                    <div class="apcon-menu-legend">
+                        <p>Events</p>
+                    </div>
+                </a>
+            </div>
+            <div class="apcon-menu-item">
+                <a href="">
+                    <div class="apcon-menu-icon">
+                        <i class="book link icon"></i>
+                    </div>
+                    <div class="apcon-menu-legend">
+                        <p>E-Books</p>
+                    </div>
+                </a>
+            </div>
+            <div class="apcon-menu-item">
+                <a href="">
+                    <div class="apcon-menu-icon">
+                        <i class="comments link icon"></i>
+                    </div>
+                    <div class="apcon-menu-legend">
+                        <p>Feed Backs</p>
+                    </div>
+                </a>
+            </div>
+            <div class="apcon-menu-item">
+                <a href="{% url 'apcon_admin_logout' %}">
+                    <div class="apcon-menu-icon">
+                        <i class="sign out alternate link icon red"></i>
+                    </div>
+                    <div class="apcon-menu-legend">
+                        <p style="color:red;">Logout</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

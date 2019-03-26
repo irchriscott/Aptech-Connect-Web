@@ -1,0 +1,32 @@
+{% extends 'adm/layouts/header.html' %}
+{% load staticfiles %}
+{% block content %}
+<div class="ui middle aligned center aligned grid" style="height:100vh; width: 100%; display: flex; align-items: center; background: url('{% static 'img/bloodbg.jpg' %}') no-repeat center; background-size: cover; margin: 0 !important;">
+    <div class="column" style="max-width:450px; box-shadow: 0 0 2px 4px rgba(0, 0, 0, .1); border-radius: 3px; background: #ffffff;">
+        <div class="apcon_logo">
+            <img src="{% static 'img/logo.png' %}" alt="Aptech Connect"/>
+        </div>
+        <form class="ui large form" method="POST" action="{% url 'apcon_admin_login' %}">
+            {% csrf_token %}
+            <div class="ui segment">
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="user icon"></i>
+                        <input type="text" name="email" placeholder="E-mail address" autocomplete="off">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="lock icon"></i>
+                        <input type="password" name="password" placeholder="Password">
+                    </div>
+                </div>
+                <button class="ui fluid large blue submit button" type="submit">Login</button>
+            </div>
+        </form>
+        <div class="ui message">
+            <a href="#">Forgot Your Email Address ?</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

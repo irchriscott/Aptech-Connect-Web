@@ -1,0 +1,82 @@
+{% extends 'adm/layouts/header.html' %} 
+{% block content %} 
+{% include 'adm/layouts/sidebar.html' %}
+<div class="pusher">
+    <div class="article apcon-admin-container">
+        {% include 'adm/layouts/menu.html' %}
+        <div class="ui grid">
+            <div class="row">
+                <div class="twelve wide column">
+                    <h1>Events</h1>
+                </div>
+                <div class="four wide column">
+                    <button class="ui twitter button" style="float:right" id="apcon-add-new-event-modal">
+                    <i class="plus icon"></i>
+                        Add New Event
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+
+<div class="ui modal" data-modal="apcon-add-new-event-modal">
+    <div class="header">
+        Add Event
+    </div>
+    <div class="content">
+        <div class="apcon-search-place">
+            <form class="ui form" action="{% url 'apcon_admin_add_new_event' %}" method="POST" id="apcon-new-branch-form" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="hidden" id="apcon-branch-latitude" name="latitude">
+                <input type="hidden" id="apcon-branch-longitude" name="longitude">
+                <div class="field">
+                    <label>Enter Event Title :</label>
+                    <input type="text" name="title" placeholder="Event Title" required autocomplete="off">
+                </div>
+                <div class="field">
+                    <label for="">Enter Event Location : </label>
+                    <div class="ui action input">
+                        <input type="text" name="place" id="apcon-search-location-input" placeholder="Event Location" autocomplete="off">
+                        <button type="button" class="ui icon blue button" id="apcon-open-add-branch-else">
+                            <i class="map marker alternate icon"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="two fields">
+                        <div class="field">
+                            <label>Enter Event Date :</label>
+                            <input type="date" placeholder="Event Date" name="date" id="apcon-event-date" required>
+                        </div>
+                        <div class="field">
+                            <label>Event Time :</label>
+                            <input type="time" name="time" id="apcon-event-time" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="apcon-event-description">Enter Event Description : </label>
+                    <textarea name="description" id="apcon-event-description" cols="30" rows="10" placeholder="Event Description"></textarea>
+                </div>
+                <div class="field apcon-file-input">
+                    <span>Add Event Images</span>
+                    <input type="file" multiple="true" name="images" required>
+                </div>
+                <div class="apcon-action-modal">
+                    <div class="actions">
+                        <div class="ui red deny button">
+                            Cancel
+                        </div>
+                    </div>
+                    <button type="submit" class="ui positive right labeled icon button" id="apcon-save-new-branch">
+                        Save
+                        <i class="checkmark icon"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
