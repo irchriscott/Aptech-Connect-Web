@@ -33,7 +33,7 @@ ALLOWED_HOSTS = ["*"]
 
 EMAIL_HOST = 'smtp.gmail.com'
 
-EMAIL_HOST_USER = 'irchristianscott@gmail.com'
+EMAIL_HOST_USER = 'aptechconnectug@gmail.com'
 
 EMAIL_HOST_PASSWORD = '323639371998'
 
@@ -140,6 +140,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'aptechstatics', 'swbstaticsc')
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'aptechstatics', 'assets'),
 )
+
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 MEDIA_URL = '/aptechuploads/'
 

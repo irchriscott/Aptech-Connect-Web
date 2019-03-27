@@ -1,0 +1,1 @@
+web: gunicorn aptechconnect.wsgi --log-file -

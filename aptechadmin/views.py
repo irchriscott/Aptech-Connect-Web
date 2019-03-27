@@ -8,7 +8,6 @@ from django.urls import reverse
 from django.contrib import messages
 from aptechapp.models import User, Course, Branch, Article, Event, Library
 from aptechapp.backend import UserAuthentication
-from aptechapp.forms import UserForm, ArticleForm, EventForm, LibraryForm
 from aptechapp.responses import ResponseObject, HttpJsonResponse
 
 # Create your views here.
@@ -116,7 +115,7 @@ def add_new_student(request):
                 reverse('apcon_admin_students')))
         else:
             return HttpJsonResponse(
-                ResponseObject('error', 'Fill All Fields With Rignt Data, Please !!!', 400, msgs=user.errors))
+                ResponseObject('error', 'Fill All Fields With Rignt Data, Please !!!', 400, msgs=user.errors.items()))
     else:
         return HttpJsonResponse(ResponseObject('error', 'Bad Request', 400))
 
@@ -144,7 +143,7 @@ def add_new_article(request):
                 reverse('apcon_admin_articles')))
         else:
             return HttpJsonResponse(
-                ResponseObject('error', 'Fill All Fields With Rignt Data, Please !!!', 400, msgs=article.errors))
+                ResponseObject('error', 'Fill All Fields With Rignt Data, Please !!!', 400, msgs=article.errors.items()))
     else:
         return HttpJsonResponse(ResponseObject('error', 'Bad Request', 400))
 
@@ -172,7 +171,7 @@ def add_new_event(request):
                 reverse('apcon_admin_events')))
         else:
             return HttpJsonResponse(
-                ResponseObject('error', 'Fill All Fields With Rignt Data, Please !!!', 400, msgs=event.errors))
+                ResponseObject('error', 'Fill All Fields With Rignt Data, Please !!!', 400, msgs=event.errors.items()))
     else:
         return HttpJsonResponse(ResponseObject('error', 'Bad Request', 400))
 
@@ -202,6 +201,6 @@ def add_new_book(request):
                 reverse('apcon_admin_ebooks')))
         else:
             return HttpJsonResponse(
-                ResponseObject('error', 'Fill All Fields With Rignt Data, Please !!!', 400, msgs=event.errors))
+                ResponseObject('error', 'Fill All Fields With Rignt Data, Please !!!', 400, msgs=event.errors.items()))
     else:
         return HttpJsonResponse(ResponseObject('error', 'Bad Request', 400))

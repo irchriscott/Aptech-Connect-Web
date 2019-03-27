@@ -123,6 +123,8 @@ class User(models.Model):
         mail.send()
         self.password = make_password(randompass)
         self.token = get_random_string(64)
+        self.roll_no = self.roll_no.upper()
+        self.batch_no = self.batch_no.upper()
         self.created_at = timezone.now()
         self.updated_at = timezone.now()
         super(User, self).save(self)
@@ -138,7 +140,7 @@ class User(models.Model):
             'email': self.email,
             'gender': self.gender,
             'dob': self.date_of_birth,
-            'image': self.image_url.url,
+            'image': self.image_url,
             'user_type': self.user_type,
             'roll_no': self.roll_no,
             'batch_no': self.batch_no,
@@ -151,7 +153,7 @@ class User(models.Model):
 
     @property
     def image_url(self):
-        return self.image if self.image is not None else 'default/user.jpg'
+        return self.image.url if self.image else 'default/user.jpg'
 
 
 class Article(models.Model):

@@ -20,6 +20,7 @@ from django.conf import settings
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^aptechadmin/', include('aptechadmin.urls')),
+    url(r'^api/', include('aptechapi.urls'))
 ]
 
 urlpatterns += static.static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

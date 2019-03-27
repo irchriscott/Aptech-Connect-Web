@@ -75,7 +75,7 @@ class SendPasswordMail(object):
             self.subject,
             self.message,
             settings.EMAIL_HOST_USER,
-            [self.admin.email],
+            [self.user.email],
             html_message=self.html_message,
             fail_silently=True
         )

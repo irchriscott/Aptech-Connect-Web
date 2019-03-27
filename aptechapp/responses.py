@@ -4,7 +4,7 @@ import json
 
 class ResponseObject(object):
 
-    def __init__(self, type, message, status, redirect=None, msgs={}, *args):
+    def __init__(self, type, message, status, redirect=None, msgs=[], *args):
         if isinstance(status, int) is False : 
             raise TypeError('{0} must be an integer'.format(status))
         
@@ -37,7 +37,9 @@ class HttpJsonResponse(HttpResponse):
             content_type='application/json', *args, **kwargs)
         
         self.content = json.dumps(
-            content.get_object_dict, indent=4, default=str, sort_keys=True)
+            content.get_object_dict, indent=4, default=str, sort_keys=True) if isinstance(
+            content, list) is not True else json.dumps(
+            content, indent=4, default=str, sort_keys=True)
         self.content_type = 'application/json'
         self.data = content
     
