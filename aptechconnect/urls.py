@@ -20,7 +20,7 @@ from aptechapp import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^/', views.home, name='apcon_app_index'),
+    url(r'^/$', views.home, name='apcon_app_index'),
     url(r'^aptechadmin/', include('aptechadmin.urls')),
     url(r'^api/', include('aptechapi.urls'))
 ]
