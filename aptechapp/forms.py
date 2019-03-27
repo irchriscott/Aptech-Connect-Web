@@ -38,6 +38,16 @@ class UserForm(forms.ModelForm):
         fields = ('name', 'email', 'gender', 'date_of_birth', 'user_type', 'roll_no', 'batch_no', 'course', 'branch')
 
 
+class AdminUserForm(forms.ModelForm):
+
+    user_type = forms.ChoiceField(widget=forms.Select, choices=USER_TYPE)
+    gender = forms.ChoiceField(widget=forms.Select, choices=GENDER)
+
+    class Meta:
+        model = User
+        fields = ('name', 'email', 'gender', 'date_of_birth', 'user_type', 'branch')
+
+
 class ArticleForm(forms.ModelForm):
 
     class Meta:
