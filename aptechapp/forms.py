@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 from django import forms
-from aptechapp.models import Course, User, Article, Event, Library, Branch
+from aptechapp.models import Course, User, Article, Event, Library, Branch, FeedBack
 from aptechapp.languages import LANGUAGES_CHOICES
 
 DURATION_TYPE = (
@@ -36,14 +36,14 @@ class BranchForm(forms.ModelForm):
 
     class Meta:
         model = Branch
-        fields = ('country', 'town', 'name', 'languages')
+        fields = ('country', 'town', 'name', 'languages',)
 
 
 class UserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('email', 'gender', 'roll_no', 'batch_no', 'course')
+        fields = ('email', 'gender', 'roll_no', 'batch_no', 'course',)
 
 
 class AdminUserForm(forms.ModelForm):
@@ -53,7 +53,7 @@ class AdminUserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('name', 'email', 'gender', 'date_of_birth', 'user_type', 'branch')
+        fields = ('name', 'email', 'gender', 'date_of_birth', 'user_type', 'branch',)
 
 
 class ArticleForm(forms.ModelForm):
@@ -67,11 +67,26 @@ class EventForm(forms.ModelForm):
 
     class Meta:
         model = Event
-        fields = ('name', 'date', 'time', 'description', 'venue', 'image')
+        fields = ('name', 'date', 'time', 'description', 'venue', 'image',)
 
 
 class LibraryForm(forms.ModelForm):
 
     class Meta:
         model = Library
-        fields = ('title', 'author', 'book', 'book_link')
+        fields = ('title', 'author', 'book',)
+
+
+class ProfileImageForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ('image',)
+
+
+class FeedBackForm(forms.ModelForm):
+
+    class Meta:
+
+        model = FeedBack
+        fields = ('about', 'feedback',)

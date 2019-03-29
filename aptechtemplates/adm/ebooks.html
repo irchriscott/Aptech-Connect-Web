@@ -37,8 +37,8 @@
                         {% for book in books %}
                             <tr>
                                 <td><div class="ui ribbon label">{{book.id}}</div></td>
-                                <th><img src="{{book.user.image_url.url}}" alt="{{book.user.name}}" /></th>
-                                <th>{{book.title}}</th>
+                                <td><img src="{{book.user.image.url}}" alt="{{book.user.name}}" /></td>
+                                <td>{{book.title}}</td>
                                 <td>{{book.author}}</td>
                                 <td><a href="{{book.book_file}}">{{book.book_file}}</a></td>
                                 <td>{{book.created_at}}</td>
@@ -98,13 +98,9 @@
                     <label>Enter Book Author :</label>
                     <input type="text" name="author" placeholder="Enter Article Title" required="required"/>
                 </div>
-                <div class="field">
-                    <label>Enter Book Link (if it's link) :</label>
-                    <input type="text" name="author" placeholder="Enter Article Title" required="required"/>
-                </div>
                 <div class="field apcon-file-input">
                     <span>Enter Book File</span>
-                    <input type="file" name="book" accept=".pdf, .doc, .docx, .txt">
+                    <input type="file" name="book" accept=".pdf">
                 </div>
                 <div class="apcon-action-modal">
                     <div class="actions">

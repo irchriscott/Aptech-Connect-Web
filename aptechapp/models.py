@@ -67,7 +67,8 @@ class Course(models.Model):
         return self.name
 
     def save(self):
-        self.created_at = timezone.now()
+        if self.pk == None:
+            self.created_at = timezone.now()
         self.updated_at = timezone.now()
         super(Course, self).save(self)
 
@@ -110,21 +111,22 @@ class User(models.Model):
         return self.name
 
     def save(self):
-        randompass = get_random_string(6)
-        mail = SendPasswordMail(user=self, password=randompass)
-        mail.send()
-        self.password = make_password(randompass)
-        self.token = get_random_string(64)
-        self.roll_no = self.roll_no.upper()
-        self.batch_no = self.batch_no.upper()
-        self.image = 'default/user.jpg'
-        self.created_at = timezone.now()
+        if self.pk == None:
+            randompass = get_random_string(6)
+            mail = SendPasswordMail(user=self, password=randompass)
+            mail.send()
+            self.password = make_password(randompass)
+            self.token = get_random_string(64)
+            self.roll_no = self.roll_no.upper()
+            self.batch_no = self.batch_no.upper()
+            self.image = 'default/user.jpg'
+            self.created_at = timezone.now()
         self.updated_at = timezone.now()
-        super(User, self).save(self)
+        super(User, self).save()
 
     def update(self):
         self.updated_at = timezone.now()
-        super(User, self).save(self)
+        super(User, self).save()
 
     def to_json(self):
         return {
@@ -161,8 +163,9 @@ class Article(models.Model):
         return self.text
 
     def save(self):
-        self.uuid = "%s-%s" % (self.title.lower().replace(' ', '-'), get_random_string(12).lower())
-        self.created_at = timezone.now()
+        if self.pk == None:
+            self.uuid = "%s-%s" % (self.title.lower().replace(' ', '-'), get_random_string(12).lower())
+            self.created_at = timezone.now()
         self.updated_at = timezone.now()
         super(Article, self).save(self)
 
@@ -239,14 +242,15 @@ class Event(models.Model):
         return self.name
 
     def save(self):
-        self.uuid = '%s-%s' % (self.name.lower().replace(' ', '-'), get_random_string(12).lower())
-        self.created_at = timezone.now()
+        if self.pk == None:
+            self.uuid = '%s-%s' % (self.name.lower().replace(' ', '-'), get_random_string(12).lower())
+            self.created_at = timezone.now()
         self.updated_at = timezone.now()
-        super(Event, self).save(self)
+        super(Event, self).save()
 
     def update(self):
         self.updated_at = timezone.now()
-        super(Event, self).save(self)
+        super(Event, self).save()
 
     def to_json(self):
         return {
@@ -270,8 +274,6 @@ class Library(models.Model):
     title = models.CharField(max_length=255, null=False, blank=False)
     author = models.CharField(max_length=255, null=False, blank=False)
     book = models.FileField(upload_to=book_file_path, null=True, blank=True)
-    is_link = models.BooleanField(default=True)
-    book_link = models.URLField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
@@ -282,10 +284,11 @@ class Library(models.Model):
         return self.title
 
     def save(self):
-        self.uuid = '%s-%s' % (self.title.lover().replace(' ', '-'), get_random_string(12).lower())
-        self.created_at = timezone.now()
+        if self.pk == None:
+            self.uuid = '%s-%s' % (self.title.lower().replace(' ', '-'), get_random_string(12).lower())
+            self.created_at = timezone.now()
         self.updated_at = timezone.now()
-        super(Library, self).save(self)
+        super(Library, self).save()
 
     def update(self):
         self.updated_at = timezone.now()
@@ -293,7 +296,7 @@ class Library(models.Model):
 
     @property
     def book_file(self):
-        return self.book_link if self.is_link is True else self.book.url
+        return self.book.url
 
     def to_json(self):
         return {
@@ -302,7 +305,6 @@ class Library(models.Model):
             'title': self.title,
             'author': self.author,
             'book': self.book_file,
-            'is_link': self.is_link,
             'created_at': self.created_at.strftime('%Y-%m-%d %H:%M:%S'),
             'updated_at': self.updated_at.strftime('%Y-%m-%d %H:%M:%S')
         }
@@ -312,7 +314,7 @@ class Message(models.Model):
     user = models.ForeignKey(User, related_name='sender')
     receiver = models.ForeignKey(User, related_name='receiver')
     message = models.TextField(blank=False, null=False)
-    image = models.ImageField(upload_to=message_image_path, null=True, blank=True)
+    #image = models.ImageField(upload_to=message_image_path, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
@@ -337,7 +339,6 @@ class Message(models.Model):
             'user': self.user.to_json(),
             'receiver': self.receiver.to_json(),
             'message': self.message,
-            'image': self.image.url if self.image is not None else '',
             'created_at': self.created_at.strftime('%Y-%m-%d %H:%M:%S'),
             'updated_at': self.updated_at.strftime('%Y-%m-%d %H:%M:%S')
         }

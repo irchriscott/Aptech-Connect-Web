@@ -6,7 +6,7 @@ from django.views.generic import TemplateView
 from django.http import HttpResponseRedirect, HttpResponse, request
 from django.urls import reverse
 from django.contrib import messages
-from aptechapp.models import User, Course, Branch, Article, Event, Library
+from aptechapp.models import User, Course, Branch, Article, Event, Library, FeedBack
 from aptechapp.backend import UserAuthentication
 from aptechapp.responses import ResponseObject, HttpJsonResponse
 from aptechapp.forms import UserForm, ArticleForm, EventForm, LibraryForm
@@ -88,7 +88,7 @@ def admin_logout(request):
 @check_user_login
 @check_admin_login
 def dashboard(request):
-    return render(request, 'adm/dashboard.html', {})
+    return HttpResponseRedirect(reverse('apcon_admin_students'))
 
 
 @check_user_login
@@ -188,15 +188,21 @@ def ebooks(request):
     return render(request, 'adm/ebooks.html', {'books': ebooks, 'user': user})
 
 
+@check_user_login
+@check_admin_login
+def feedbacks(request):
+    user = User.objects.get(pk=request.session['user'])
+    feedbacks = FeedBack.objects.filter(user__branch__pk=user.branch.pk).order_by('-created_at')
+    return render(request, 'adm/feedbacks.html', {'feedbacks': feedbacks, 'user': user})
+
+
 @check_admin_login
 @check_user_login
 def add_new_book(request):
     if request.method == 'POST':
         user = User.objects.get(pk=request.session['user'])
-        is_link = False if request.FILES.get('book') is not None else True
         book = LibraryForm(request.POST, request.FILES, instance=Library(
-                user=User.objects.get(pk=user.pk),
-                is_link=is_link
+                user=User.objects.get(pk=user.pk)
             ))
         if book.is_valid():
             book.save()

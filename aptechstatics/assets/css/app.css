@@ -58,6 +58,10 @@ textarea{
     margin-top: 2.5rem;
 }
 
+.apcon-data-container{
+    white-space: normal !important;
+}
+
 .apcon-admin-container{
     padding: 50px;
     margin-left: 15rem;

@@ -14,5 +14,6 @@ urlpatterns = [
     url(r'events/$', views.events, name='apcon_admin_events'),
     url(r'events/add/new/$', views.add_new_event, name='apcon_admin_event_add'),
     url(r'ebooks/$', views.ebooks, name='apcon_admin_ebooks'),
+    url(r'feedbacks/$', views.feedbacks, name='apcon_admin_feedbacks'),
     url(r'ebooks/add/new/$', views.add_new_book, name='apcon_admin_book_add'),
 ]
