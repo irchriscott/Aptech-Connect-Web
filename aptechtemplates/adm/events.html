@@ -24,7 +24,6 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Image</th>
                         <th>Name</th>
                         <th>Date Time</th>
                         <th>Venue</th>
@@ -37,9 +36,8 @@
                         {% for event in events %}
                             <tr>
                                 <td><div class="ui ribbon label">{{event.id}}</div></td>
-                                <th><img src="{{event.image.src}}" alt="{{event.name}}" /></th>
                                 <th>{{event.name}}</th>
-                                <td>{{event.date}} at {{article.time}}</td>
+                                <td>{{event.date}} at {{event.time}}</td>
                                 <td>{{event.venue}}</td>
                                 <td>{{event.created_at}}</td>
                                 <td>

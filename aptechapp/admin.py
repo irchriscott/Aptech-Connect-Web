@@ -2,11 +2,13 @@
 from __future__ import unicode_literals
 from django.contrib import admin
 from aptechapp.models import Course, Branch, User
-from aptechapp.forms import CourseForm, UserForm
+from aptechapp.forms import CourseForm, AdminUserForm, BranchForm
 
 # Register your models here.
 
-admin.site.register(Branch)
+@admin.register(Branch)
+class CreateBranch(admin.ModelAdmin):
+    form = BranchForm
 
 @admin.register(Course)
 class CreateCourse(admin.ModelAdmin):
@@ -14,6 +16,6 @@ class CreateCourse(admin.ModelAdmin):
 
 @admin.register(User)
 class CreateUser(admin.ModelAdmin):
-    form = UserForm
+    form = AdminUserForm
 
 

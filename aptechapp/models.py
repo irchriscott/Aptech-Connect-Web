@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.contrib.auth.hashers import make_password
 from aptechapp.mailer import SendPasswordMail
+from aptechapp.languages import LANGUAGES_CHOICES
 from time import time
 
 # Create your models here.
@@ -29,7 +30,7 @@ class Branch(models.Model):
     country = models.CharField(max_length=255, blank=False, null=False)
     town = models.CharField(max_length=255, blank=False, null=False)
     name = models.CharField(max_length=255, blank=False, null=False)
-    languages = models.CharField(max_length=255, blank=False, null=False, default='English')
+    languages = models.TextField(max_length=255, blank=False, null=False, default='English')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
 
@@ -39,24 +40,15 @@ class Branch(models.Model):
     def __str__(self):
         return self.name
 
-    def save(self):
-        self.created_at = timezone.now()
-        self.updated_at = timezone.now()
-        super(Branch, self).save(self)
-
-    def update(self):
-        self.updated_at = timezone.now()
-        super(Branch, self).save(self)
-
     def to_json(self):
         return {
             'id': self.pk,
             'country': self.country,
             'town': self.town,
             'name': self.name,
-            'languages': self.languages.split(','),
-            'created_at': self.created_at,
-            'updated_at': self.updated_at
+            'languages': self.languages.replace("[", "").replace("]", "").replace("u'", "").replace("'", "").replace(" ", "").split(','),
+            'created_at': self.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+            'updated_at': self.updated_at.strftime('%Y-%m-%d %H:%M:%S')
         }
 
 
@@ -90,8 +82,8 @@ class Course(models.Model):
             'initials': self.initials,
             'duration': self.duration,
             'duration_type': self.duration_type,
-            'created_at': self.created_at,
-            'updated_at': self.updated_at
+            'created_at': self.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+            'updated_at': self.updated_at.strftime('%Y-%m-%d %H:%M:%S')
         }
 
 
@@ -103,7 +95,7 @@ class User(models.Model):
     password = models.TextField(blank=False, null=False)
     image = models.ImageField(upload_to=user_image_path, null=True, blank=True)
     user_type = models.CharField(max_length=200, null=False, blank=False)
-    roll_no = models.CharField(max_length=100, null=True, blank=True)
+    roll_no = models.CharField(unique=True, max_length=100, null=True, blank=True)
     batch_no = models.CharField(max_length=100, null=True, blank=True)
     course = models.ForeignKey(Course, null=True, blank=True)
     branch = models.ForeignKey(Branch, null=False, blank=False)
@@ -125,6 +117,7 @@ class User(models.Model):
         self.token = get_random_string(64)
         self.roll_no = self.roll_no.upper()
         self.batch_no = self.batch_no.upper()
+        self.image = 'default/user.jpg'
         self.created_at = timezone.now()
         self.updated_at = timezone.now()
         super(User, self).save(self)
@@ -140,20 +133,16 @@ class User(models.Model):
             'email': self.email,
             'gender': self.gender,
             'dob': self.date_of_birth,
-            'image': self.image_url,
+            'image': self.image.url,
             'user_type': self.user_type,
             'roll_no': self.roll_no,
             'batch_no': self.batch_no,
             'course': self.course.to_json(),
             'branch': self.branch.to_json(),
             'token': self.token,
-            'created_at': self.created_at,
-            'updated_at': self.updated_at
+            'created_at': self.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+            'updated_at': self.updated_at.strftime('%Y-%m-%d %H:%M:%S')
         }
-
-    @property
-    def image_url(self):
-        return self.image.url if self.image else 'default/user.jpg'
 
 
 class Article(models.Model):
@@ -172,7 +161,7 @@ class Article(models.Model):
         return self.text
 
     def save(self):
-        self.uuid = "%s-%s" % (self.title.lower(), get_random_string(12).lower())
+        self.uuid = "%s-%s" % (self.title.lower().replace(' ', '-'), get_random_string(12).lower())
         self.created_at = timezone.now()
         self.updated_at = timezone.now()
         super(Article, self).save(self)
@@ -181,6 +170,7 @@ class Article(models.Model):
         self.updated_at = timezone.now()
         super(Article, self).save(self)
 
+    @property
     def comments(self):
         return Comment.objects.filter(article__pk=self.pk).order_by('-created_at')
 
@@ -192,8 +182,9 @@ class Article(models.Model):
             'title': self.title,
             'text': self.text,
             'image': self.image.url,
-            'created_at': self.created_at,
-            'updated_at': self.updated_at
+            'comments': [comment.to_json() for comment in self.comments] if self.comments.count() > 0 else [],
+            'created_at': self.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+            'updated_at': self.updated_at.strftime('%Y-%m-%d %H:%M:%S')
         }
 
 
@@ -224,8 +215,8 @@ class Comment(models.Model):
             'id': self.pk,
             'user': self.user.to_json(),
             'comment': self.comment,
-            'created_at': self.created_at,
-            'updated_at': self.updated_at
+            'created_at': self.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+            'updated_at': self.updated_at.strftime('%Y-%m-%d %H:%M:%S')
         }
 
 
@@ -248,7 +239,7 @@ class Event(models.Model):
         return self.name
 
     def save(self):
-        self.uuid = '%s-%s' % (self.name.lower(), get_random_string(12).lower())
+        self.uuid = '%s-%s' % (self.name.lower().replace(' ', '-'), get_random_string(12).lower())
         self.created_at = timezone.now()
         self.updated_at = timezone.now()
         super(Event, self).save(self)
@@ -262,14 +253,14 @@ class Event(models.Model):
             'id': self.pk,
             'user': self.user.to_json(),
             'uuid': self.uuid,
-            'date': self.date,
+            'date': self.date.strftime('%Y-%m-%d'),
             'time': self.time,
             'name': self.name,
             'description': self.description,
             'image': self.image.url,
             'venue': self.venue,
-            'created_at': self.created_at,
-            'updated_at': self.updated_at
+            'created_at': self.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+            'updated_at': self.updated_at.strftime('%Y-%m-%d %H:%M:%S')
         }
 
 
@@ -291,7 +282,7 @@ class Library(models.Model):
         return self.title
 
     def save(self):
-        self.uuid = '%s-%s' % (self.title.lover(), get_random_string(12).lower())
+        self.uuid = '%s-%s' % (self.title.lover().replace(' ', '-'), get_random_string(12).lower())
         self.created_at = timezone.now()
         self.updated_at = timezone.now()
         super(Library, self).save(self)
@@ -312,8 +303,8 @@ class Library(models.Model):
             'author': self.author,
             'book': self.book_file,
             'is_link': self.is_link,
-            'created_at': self.created_at,
-            'updated_at': self.updated_at
+            'created_at': self.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+            'updated_at': self.updated_at.strftime('%Y-%m-%d %H:%M:%S')
         }
 
 
@@ -347,6 +338,28 @@ class Message(models.Model):
             'receiver': self.receiver.to_json(),
             'message': self.message,
             'image': self.image.url if self.image is not None else '',
-            'created_at': self.created_at,
-            'updated_at': self.updated_at
+            'created_at': self.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+            'updated_at': self.updated_at.strftime('%Y-%m-%d %H:%M:%S')
         }
+
+class FeedBack(models.Model):
+    user = user = models.ForeignKey(User)
+    about = models.CharField(max_length=255, null=False, blank=False)
+    feedback = models.TextField(blank=False, null=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return self.about
+
+    def __str__(self):
+        return self.about
+
+    def save(self):
+        self.created_at = timezone.now()
+        self.updated_at = timezone.now()
+        super(FeedBack, self).save(self)
+
+    def update(self):
+        self.updated_at = timezone.now()
+        super(FeedBack, self).save(self)

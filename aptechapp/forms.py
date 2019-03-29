@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 from django import forms
-from aptechapp.models import Course, User, Article, Event, Library
+from aptechapp.models import Course, User, Article, Event, Library, Branch
+from aptechapp.languages import LANGUAGES_CHOICES
 
 DURATION_TYPE = (
     ('Days', 'Days'),
@@ -28,14 +29,21 @@ class CourseForm(forms.ModelForm):
         fields = ('name', 'initials', 'duration', 'duration_type',)
 
 
-class UserForm(forms.ModelForm):
+class BranchForm(forms.ModelForm):
 
-    user_type = forms.ChoiceField(widget=forms.Select, choices=USER_TYPE)
-    gender = forms.ChoiceField(widget=forms.Select, choices=GENDER)
+    languages = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
+        choices=LANGUAGES_CHOICES)
+
+    class Meta:
+        model = Branch
+        fields = ('country', 'town', 'name', 'languages')
+
+
+class UserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('name', 'email', 'gender', 'date_of_birth', 'user_type', 'roll_no', 'batch_no', 'course', 'branch')
+        fields = ('email', 'gender', 'roll_no', 'batch_no', 'course')
 
 
 class AdminUserForm(forms.ModelForm):

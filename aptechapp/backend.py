@@ -53,7 +53,5 @@ class StudentAuthentication(object):
         else:
             return None
 
-
-    @property
     def authenticate(self):
         return self.check_user_type()

@@ -9,6 +9,8 @@ from django.contrib import messages
 from aptechapp.models import User, Course, Branch, Article, Event, Library
 from aptechapp.backend import UserAuthentication
 from aptechapp.responses import ResponseObject, HttpJsonResponse
+from aptechapp.forms import UserForm, ArticleForm, EventForm, LibraryForm
+import datetime
 
 # Create your views here.
 
@@ -104,6 +106,8 @@ def add_new_student(request):
     if request.method == 'POST':
         session = User.objects.get(pk=request.session['user'])
         user = UserForm(request.POST, instance=User(
+                name='%s %s' % (request.POST.get('first_name'), request.POST.get('last_name')),
+                date_of_birth=datetime.datetime.strptime('{0}'.format(request.POST.get('date_of_birth')), '%Y-%m-%d'),
                 branch=Branch.objects.get(pk=session.branch.id),
                 course=Course.objects.get(pk=request.POST.get('course')),
                 user_type='student'
